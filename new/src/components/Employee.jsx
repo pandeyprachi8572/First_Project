@@ -1,271 +1,227 @@
 import React, { useState, useEffect } from "react";
+ import CreateEmployee from "./employee/CreateEmployee";
+ import EditData from "./employee/EditData";
+ import DeleteData from "./employee/DeleteData";
 
-const Employee = () => {
-  const [data, setData] = useState([]); // Employee data
-  const [page, setPage] = useState(1); // Current page
-  const [fields, setFields] = useState([]); // Fields for the current page
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(null); // Error state
-  const [showPopup, setShowPopup] = useState(false); // Show popup state
-  const [popupData, setPopupData] = useState({}); // Data for create/edit popup
-  const [isEditMode, setIsEditMode] = useState(false); // To distinguish between Create and Edit
+ const Employee = () => {
+   const [data, setData] = useState([]);
+   const [loading, setLoading] = useState(true);
+   const [currentPage, setCurrentPage] = useState(1);
+   const rowsPerPage = 10; // Number of rows to show per page
+   const token = localStorage.getItem("token");
+   const [showCreateModal, setShowCreateModal] = useState(false);
+   const [showEditModal, setShowEditModal] = useState(false);
+   
+   const [showDeleteModal, setShowDeleteModal] = useState(false);
+   const [currentEmployee, setCurrentEmployee] = useState(null);
+   const fetchEmployees = async () => {
+     try {
+       const response = await fetch("http://localhost:3333/api/employees/1/", {
+         headers: {
+           Authorization: `Bearer ${token}`,
+         },
+       });
+       const result = await response.json();
+       setData(result);
+     } catch (error) {
+       console.error("Error fetching data:", error);
+     } finally {
+       setLoading(false);
+     }
+   };
 
-  const token = localStorage.getItem("token");
+   useEffect(() => {
+     fetchEmployees();
+   }, []);
 
-  // Define fields for each page
-  const fieldPages = [
-    [
-      "desk_employee_id",
-      "name",
-      "email",
-      "group_id",
-      "group_name",
-      "profile_url",
-    ],
-    ["is_online", "arrived", "left", "late", "online_time"],
-    ["offline_time", "desktime_time", "at_work_time", "after_work_time"],
-    [
-      "before_work_time",
-      "productive_time",
-      "productivity",
-      "efficiency",
-      "work_starts",
-      "work_ends",
-      "created_at",
-      "updated_at",
-      "isDeleted",
-      "user_id",
-      "password",
-    ],
-  ];
+   // Pagination logic
+   const lastRowIndex = currentPage * rowsPerPage;
+   const firstRowIndex = lastRowIndex - rowsPerPage;
+   const currentData = data.slice(firstRowIndex, lastRowIndex);
 
-  // Fetch data when page changes
-  useEffect(() => {
-    fetchData();
-  }, [page]);
+   const handleNextPage = () => {
+     if (currentPage < 5) setCurrentPage(currentPage + 1);
+   };
 
-  const fetchData = async () => {
-    setLoading(true);
-    setError(null);
+   const handlePreviousPage = () => {
+     if (currentPage > 1) setCurrentPage(currentPage - 1);
+   };
 
-    try {
-      const response = await fetch("http://localhost:3333/api/employees/1/", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+   const columns = [
+     [
+       "desk_employee_id",
+       "name",
+       "email",
+       "group_id",
+       "group_name",
+       "profile_url",
+       "Action"
+     ],
+     ["is_online", "arrived", "left", "late", "online_time"],
+     [
+       "offline_time",
+       "desktime_time",
+       "at_work_time",
+       "after_work_time",
+       "before_work_time",
+     ],
+     [
+       "productive_time",
+       "productivity",
+       "efficiency",
+       "work_starts",
+       "work_ends",
+     ],
+     ["created_at", "updated_at", "isDeleted", "user_id", "password"],
+   ];
 
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.statusText}`);
-      }
-
-      const result = await response.json();
-      setData(result.data || []); // Set fetched data
-      setFields(fieldPages[page - 1]); // Set current page fields
-    } catch (err) {
-      console.error(err);
-      setError("Failed to load data. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+   if (loading) {
+     return <div className="text-center text-lg font-bold">Loading...</div>;
+   }
+   const handleCreateEmployee = (newEmployee) => {
+     setData((prevData) => [...prevData, newEmployee]);
+   };
+   const handleEditEmployee = (employee) => {
+    setCurrentEmployee(employee);
+    setShowEditModal(true);
   };
-
-  const handleCreate = () => {
-    setPopupData({});
-    setIsEditMode(false);
-    setShowPopup(true);
-  };
-
-  const handleEdit = (rowData) => {
-    setPopupData(rowData);
-    setIsEditMode(true);
-    setShowPopup(true);
-  };
-
-  const handleDelete = async (id) => {
-    const confirm = window.confirm(
-      "Are you sure you want to delete this record?"
+  const handleUpdateEmployee = (updatedEmployee) => {
+    setData((prevData) =>
+      prevData.map((employee) =>
+        employee.desk_employee_id === updatedEmployee.desk_employee_id
+          ? updatedEmployee
+          : employee
+      )
     );
-    if (confirm) {
-      try {
-        const response = await fetch(
-          `http://localhost:3333/api/employees/6/${id}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`API Error: ${response.statusText}`);
-        }
-
-        // Refetch data after deletion
-        fetchData();
-      } catch (err) {
-        console.error("Failed to delete record:", err);
-      }
-    }
   };
-  const handlePopupSubmit = async () => {
+  const handleDeleteEmployee = (employee) => {
+    setCurrentEmployee(employee);
+    setShowDeleteModal(true);
+  };
+  const handleDeleteConfirmation = async () => {
     try {
-      const url = isEditMode
-        ? `http://localhost:3333/api/employees/6/${popupData.desk_employee_id}`
-        : "http://localhost:3333/api/employees";
-      const method = isEditMode ? "PUT" : "POST";
+      const response = await fetch(
+        `http://localhost:3333/api/employees/${currentEmployee.desk_employee_id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(popupData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.statusText}`);
+      if (response.ok) {
+        setData((prevData) =>
+          prevData.filter(
+            (employee) => employee.desk_employee_id !== currentEmployee.desk_employee_id
+          )
+        );
+        setShowDeleteModal(false);
+      } else {
+        alert("Failed to delete employee");
       }
-
-      // Close popup and refetch data
-      setShowPopup(false);
-      fetchData();
-    } catch (err) {
-      console.error("Failed to submit data:", err);
+    } catch (error) {
+      console.error("Error deleting employee:", error);
     }
   };
-  return (
-    <div className="p-6">
-      <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold">Employee Table</h1>
-        <button
-          onClick={handleCreate}
-          className="px-4 py-2 bg-gray-800 text-white rounded"
-        >
-          Create
-        </button>
-      </div>
 
-      {/* Table */}
-      {loading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div className="text-red-500">{error}</div>
-      ) : (
-        <table className="min-w-full bg-gray-800 text-white border uppercase border-gray-200 shadow-sm">
-          <thead>
-            <tr>
-              {fields.map((field) => (
-                <th key={field} className="py-2 px-4 border-b">
-                  {field}
-                </th>
-              ))}
-              <th className="py-2 px-4 border-b">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, index) => (
-              <tr key={index} className="hover:bg-gray-100">
-                {fields.map((field) => (
-                  <td key={field} className="py-2 px-4 border-b">
-                    {row[field] || "N/A"}
-                  </td>
-                ))}
-                <td className="py-2 px-4 border-b flex gap-2">
+   return (
+     <div className="p-4">
+       <h1 className="text-2xl font-semibold mb-4">Employee Details</h1>
+       <button
+           onClick={() => setShowCreateModal(true)}
+           className="px-4 py-2 bg-gray-800 text-white rounded text-left"
+         >
+           Create
+         </button>
+       <div className="overflow-x-auto">
+         <table className="table-auto w-full border-collapse border border-gray-300 text-sm text-left text-gray-700">
+           <thead className="bg-gray-800 text-xs text-white uppercase">
+             <tr>
+               {columns[currentPage - 1].map((col) => (
+                 <th key={col} className="border border-gray-300 px-4 py-2">
+                   {col.replace("_", " ")}
+                 </th>
+               ))}
+             </tr>
+           </thead>
+           <tbody>
+             {currentData.map((employee, index) => (
+               <tr
+                 key={index}
+                 className="bg-white hover:bg-gray-100 border border-gray-300"
+               >
+                 {columns[currentPage - 1].map((col) => (
+                   <td key={col} className="px-4 py-2">
+                     {employee[col]}
+                   </td>
+                 ))}
+                 <td className="px-4 py-2">
                   <button
-                    onClick={() => handleEdit(row)}
-                    className="px-2 py-1 bg-yellow-500 text-white rounded"
+                    onClick={() => handleEditEmployee(employee)}
+                    className="px-4 py-2 bg-gray-800 text-white rounded"
                   >
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(row.desk_employee_id)}
-                    className="px-2 py-1 bg-red-500 text-white rounded"
+                    onClick={() => handleDeleteEmployee(employee)}
+                    className="px-4 py-2 bg-red-500 text-white rounded ml-2"
                   >
                     Delete
                   </button>
                 </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+               </tr>
+               
+             ))}
+           </tbody>
+         </table>
+       </div>
 
-      {/* Pagination Controls */}
-      <div className="flex justify-center mt-4">
-        <button
-          className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
-          disabled={page === 1}
-          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-        >
-          Previous
-        </button>
-        <span className="px-4 py-2">{page}</span>
-        <button
-          className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
-          disabled={page === fieldPages.length}
-          onClick={() =>
-            setPage((prev) => Math.min(prev + 1, fieldPages.length))
-          }
-        >
-          Next
-        </button>
-      </div>
+       {/* Pagination Controls */}
+       <div className="flex justify-between mt-4">
+         <button
+           onClick={handlePreviousPage}
+           disabled={currentPage === 1}
+           className={`px-4 py-2 bg-gray-800 text-white rounded ${
+             currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+           }`}
+         >
+           Previous
+         </button>
+         <span className="font-semibold text-gray-700">Page {currentPage}</span>
+         <button
+           onClick={handleNextPage}
+           disabled={currentPage === columns.length}
+           className={`px-4 py-2 bg-gray-800 text-white rounded ${
+             currentPage === columns.length ? "opacity-50 cursor-not-allowed" : ""
+           }`}
+         >
+           Next
+         </button>
+       </div>
+       {showCreateModal && (
+         <CreateEmployee
+           onClose={() => setShowCreateModal(false)}
+           onCreate={handleCreateEmployee}
+         />
+       )}
 
-      {/* Popup */}
-      {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded shadow-lg">
-            <h2 className="text-xl font-bold mb-4">
-              {isEditMode ? "Edit Employee" : "Create Employee"}
-            </h2>
-            <form>
-              {[
-                "name",
-                "email",
-                "group_id",
-                "group_name",
-                "profile_url",
-                "user_id",
-                "password",
-              ].map((field) => (
-                <div key={field} className="mb-4">
-                  <label className="block mb-1 capitalize">{field}</label>
-                  <input
-                    type="text"
-                    value={popupData[field] || ""}
-                    onChange={(e) =>
-                      setPopupData({ ...popupData, [field]: e.target.value })
-                    }
-                    className="w-full border border-gray-300 p-2 rounded"
-                  />
-                </div>
-              ))}
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={handlePopupSubmit}
-                  className="px-4 py-2 bg-blue-500 text-white rounded"
-                >
-                  Submit
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowPopup(false)}
-                  className="px-4 py-2 bg-gray-500 text-white rounded"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+      {showEditModal && currentEmployee && (
+        <EditData
+          employee={currentEmployee}
+          onClose={() => setShowEditModal(false)}
+          onUpdate={handleUpdateEmployee}
+        />
       )}
-    </div>
-  );
-};
-export default Employee;
+      {showDeleteModal && currentEmployee && (
+        <DeleteData
+          employee={currentEmployee}
+          onClose={() => setShowDeleteModal(false)}
+          onDelete={handleDeleteConfirmation}
+        />
+      )}
+     </div>
+   );
+ };
+ export default Employee;
+

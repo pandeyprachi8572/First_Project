@@ -10,6 +10,7 @@ const token = localStorage.getItem("token");
 useEffect(() => {
 const fetchData = async () => {
       try {
+        
         const response = await fetch("http://localhost:3333/api/projects", {
           headers: {
             Authorization: `Bearer ${token}`,

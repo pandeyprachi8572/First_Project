@@ -45,7 +45,7 @@ body {
 .login .col-left {
   width: 60%;
   clip-path: polygon(0 0, 0% 100%, 100% 0);
-  background: #200271;
+  background: #0b0320;
 }
 .login .col-right {
   padding: 60px 30px;
@@ -101,7 +101,7 @@ body {
 }
 
 .login .login-text .btn:hover {
-  color: #200271;
+  color:  #0b0320;
   box-shadow: inset 150px 0 0 0 #ffffff;
 }
 
@@ -125,7 +125,7 @@ body {
   padding-top: 3px;
 }
 .login .login-form p a {
-  color: #200271;
+  color:  #0b0320;
   font-size: 14px;
   text-decoration: none;
 }
@@ -160,20 +160,20 @@ body {
   display: inline-block;
   width: 100%;
   margin-top: 5px;
-  color: #200271;
+  color:  #0b0320;
   font-size: 16px;
   letter-spacing: 1px;
   cursor: pointer;
   background: transparent;
-  border: 1px solid #2aa15f;
+  border: 1px solid  #0b0320;
   border-radius: 30px;
-  box-shadow: inset 0 0 0 0 #200271;
+  box-shadow: inset 0 0 0 0  #0b0320;
   transition: 0.3s;
 }
 .login .login-form button:hover,
 .login .login-form input[type="submit"]:hover {
   color: #ffffff;
-  box-shadow: inset 250px 0 0 0 #200271;
+  box-shadow: inset 250px 0 0 0  #0b0320;
 }
 .nav {
   padding-left: 8%;

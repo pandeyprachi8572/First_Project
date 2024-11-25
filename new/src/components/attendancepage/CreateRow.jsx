@@ -50,7 +50,7 @@ const CreateRow = ({ onClose, onSave }) => {
         <form className="space-y-3">
           {Object.keys(newRow).map((key) => (
             <div key={key}>
-              <label className="block text-sm font-medium text-gray-700 capitalize">
+              <label className="block  font-medium text-gray-700 capitalize text-start">
                 {key.replace("_", " ")}
               </label>
               <input

@@ -52,7 +52,7 @@ const CreateProject = ({ setProjects }) => {
             <h2 className="text-xl font-semibold mb-4">Create Project</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-gray-700">Project Name</label>
+                <label className="block text-gray-700 text-start">Project Name</label>
                 <input
                   type="text"
                   name="project_name"
@@ -63,7 +63,7 @@ const CreateProject = ({ setProjects }) => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700">Budget</label>
+                <label className="block text-gray-700 text-start">Budget</label>
                 <input
                   type="number"
                   name="budget"
@@ -74,7 +74,7 @@ const CreateProject = ({ setProjects }) => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700">Current Cost</label>
+                <label className="block text-gray-700 text-start">Current Cost</label>
                 <input
                   type="number"
                   name="current_cost"
@@ -85,7 +85,7 @@ const CreateProject = ({ setProjects }) => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700">Actual Cost</label>
+                <label className="block text-gray-700 text-start">Actual Cost</label>
                 <input
                   type="number"
                   name="actual_cost"
@@ -95,8 +95,8 @@ const CreateProject = ({ setProjects }) => {
                   required
                 />
               </div>
-              <div>
-                <label className="block text-gray-700">Is Critical</label>
+              <div className="text-start">
+                <label className="block text-gray-700 text-start">Is Critical</label>
                 <input
                   type="checkbox"
                   name="is_critical"
@@ -107,7 +107,7 @@ const CreateProject = ({ setProjects }) => {
                 <span>{formData.is_critical ? "Yes" : "No"}</span>
               </div>
               <div>
-                <label className="block text-gray-700">
+                <label className="block text-gray-700 text-start">
                   Project Manager Emails
                 </label>
                 <input
@@ -119,11 +119,11 @@ const CreateProject = ({ setProjects }) => {
                   required
                 />
               </div>
-              <div className="flex justify-end space-x-4">
+              <div className="flex justify-end space-x-4 text ">
                 <button
                   type="button"
                   onClick={() => setShowPopup(false)}
-                  className="bg-gray-500 text-white px-4 py-2 rounded"
+                  className="bg-gray-500 text-white px-4 py-2 rounded "
                 >
                   Cancel
                 </button>

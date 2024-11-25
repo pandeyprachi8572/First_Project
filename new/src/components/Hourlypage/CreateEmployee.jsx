@@ -28,7 +28,7 @@ const CreateEmployee = ({ onClose, onEmployeeCreated }) => {
       <div className="bg-white p-6 rounded shadow">
         <h2 className="text-lg font-semibold mb-4">Create Employee</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          <div className="mb-2">
             <label className="block text-sm font-medium text-gray-700">
               Employee Id
             </label>

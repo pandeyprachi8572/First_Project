@@ -60,7 +60,7 @@ const EditProject = ({ project, onUpdate, setProjects }) => {
             <h2 className="text-xl font-semibold mb-4">Edit Project</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-gray-700">Project Name</label>
+                <label className="block text-gray-700 text-left">Project Name</label>
                 <input
                   type="text"
                   name="project_name"
@@ -70,7 +70,7 @@ const EditProject = ({ project, onUpdate, setProjects }) => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700">Budget</label>
+                <label className="block text-gray-700 text-left">Budget</label>
                 <input
                   type="number"
                   name="budget"
@@ -80,7 +80,7 @@ const EditProject = ({ project, onUpdate, setProjects }) => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700">Current Cost</label>
+                <label className="block text-gray-700 text-start">Current Cost</label>
                 <input
                   type="number"
                   name="current_cost"
@@ -90,7 +90,7 @@ const EditProject = ({ project, onUpdate, setProjects }) => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700">Actual Cost</label>
+                <label className="block text-gray-700 text-start">Actual Cost</label>
                 <input
                   type="number"
                   name="actual_cost"
@@ -99,8 +99,8 @@ const EditProject = ({ project, onUpdate, setProjects }) => {
                   className="w-full border px-3 py-2 rounded"
                 />
               </div>
-              <div>
-                <label className="block text-gray-700">Is Critical</label>
+              <div className="text-start">
+                <label className="block text-gray-700 text-start">Is Critical</label>
                 <input
                   type="checkbox"
                   name="is_critical"
@@ -110,8 +110,8 @@ const EditProject = ({ project, onUpdate, setProjects }) => {
                 />
                 <span>{formData.is_critical ? "Yes" : "No"}</span>
               </div>
-              <div>
-                <label className="block text-gray-700">
+              <div className="text-start">
+                <label className="block text-gray-700 text-start">
                   Project Manager Emails
                 </label>
                 <input
@@ -119,7 +119,7 @@ const EditProject = ({ project, onUpdate, setProjects }) => {
                   name="project_manager_emails"
                   value={formData.project_manager_emails}
                   onChange={handleChange}
-                  className="w-full border px-3 py-2 rounded"
+                  className="w-full border px-3 py-2 rounded text-start"
                 />
               </div>
               <div className="flex justify-end space-x-4">

@@ -1,6 +1,4 @@
-//
 import React, { useState } from "react";
-
 const EditRow = ({ row, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     id: row.id,
@@ -78,7 +76,7 @@ const EditRow = ({ row, onClose, onSave }) => {
             if (key === "is_online") {
               return (
                 <div key={key}>
-                  <label className="flex  space-x-2">
+                  <label className="flex  space-x-2 text-start">
                     <input
                       type="checkbox"
                       name={key}
@@ -92,7 +90,7 @@ const EditRow = ({ row, onClose, onSave }) => {
             }
             return (
               <div key={key}>
-                <label className="block text-sm font-medium">{key}</label>
+                <label className="block text-sm font-medium text-start">{key}</label>
                 <input
                   type={
                     key.includes("time") || key.includes("date")

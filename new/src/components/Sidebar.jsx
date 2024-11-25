@@ -8,7 +8,6 @@ import {
 } from "react-icons/fa";
 import { NavLink, useLocation } from "react-router-dom";
 import { IoCloseSharp } from "react-icons/io5";
-
 const Sidebar = () => {
   const [isopen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -47,7 +46,7 @@ const Sidebar = () => {
                 } px-5 py-3 rounded-full ${
                   location.pathname === "/projects"
                     ? "bg-blue-800"
-                    : "hover:bg-blue-700"
+                    : "hover:bg-blue-300"
                 }`}
               >
                 Projects
@@ -63,7 +62,7 @@ const Sidebar = () => {
                 } px-5 py-3 rounded-full ${
                   location.pathname === "/employee"
                     ? "bg-blue-800"
-                    : "hover:bg-blue-700"
+                    : "hover:bg-blue-300"
                 }`}
               >
                 Employee
@@ -79,7 +78,7 @@ const Sidebar = () => {
                 } px-5 py-3 rounded-full ${
                   location.pathname === "/attendance"
                     ? "bg-blue-800"
-                    : "hover:bg-blue-700"
+                    : "hover:bg-blue-300"
                 }`}
               >
                 Attendance
@@ -95,7 +94,7 @@ const Sidebar = () => {
                 } px-5 py-3 rounded-full ${
                   location.pathname === "/hourlyrate"
                     ? "bg-blue-800"
-                    : "hover:bg-blue-700"
+                    : "hover:bg-blue-300"
                 }`}
               >
                 HourlyRate
