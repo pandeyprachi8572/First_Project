@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-
 const Search = ({ setProjects }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const token = localStorage.getItem("token");
-
   const handleSearch = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3333/api/projects?search=${searchQuery}`,
+        `http://localhost:3333/api/projects/search/${searchQuery}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -36,7 +34,7 @@ const Search = ({ setProjects }) => {
       />
       <button
         onClick={handleSearch}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="bg-gray-800 text-white px-4 py-2 rounded"
       >
         Search
       </button>

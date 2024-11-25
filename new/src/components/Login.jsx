@@ -51,12 +51,12 @@ const Login = () => {
             </a>
           </div>
         </div>
-        <div class="col-right">
-          <div class="login-form">
+        <div className="col-right">
+          <div className="login-form">
             <h1 className="pt-8 pb-6 font-bold dark:text-gray-800 text-5xl text-center cursor-default">
               Log in
             </h1>
-            {error && <p className="text-red-500 mb-4">{error}</p>}
+            {error && <p classNameName="text-red-500 mb-4">{error}</p>}
             <form action="#" className="space-y-4" onSubmit={handleSubmit}>
               <p>
                 <label htmlFor="email">Email</label>

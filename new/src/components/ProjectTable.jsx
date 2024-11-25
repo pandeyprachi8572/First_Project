@@ -9,7 +9,7 @@ const [filteredProjects, setFilteredProjects] = useState([]);
 const token = localStorage.getItem("token");
 useEffect(() => {
 const fetchData = async () => {
-    try {
+      try {
         const response = await fetch("http://localhost:3333/api/projects", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -27,16 +27,16 @@ const fetchData = async () => {
       }
     };
     fetchData();
-}, [token]);
-return (
-  <div>
-    <div className="flex justify-between mb-2">
+  }, [token]);
+  return (
+    <div>
+      <div className="flex justify-between mb-2">
         <CreateProject setProjects={setProjects} />
         <Search projects={projects} setFilteredProjects={setFilteredProjects} />
       </div>
       <table className="min-w-full bg-white border border-gray-300 rounded-lg">
         <thead>
-          <tr className="bg-gray-500 text-white">
+          <tr className="bg-gray-800 text-white">
             <th className="py-3 px-3 text-left text-lg font-semibold">
               Project ID
             </th>
@@ -98,12 +98,6 @@ return (
   );
 };
 export default ProjectTable;
-
-
-
-
-
-
 
 /*import React, { useState, useEffect } from "react";
 const ProjectTable = () => {

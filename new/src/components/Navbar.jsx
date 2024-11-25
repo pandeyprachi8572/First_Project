@@ -8,7 +8,7 @@ const Navbar = () => {
     navigate("/login");
   };
   return (
-    <div className="bg-gray-100 text-black p-6 flex justify-between items-center">
+    <div className="bg-gray-900 text-white p-6 flex justify-between min-w-full  position: fixed  items-center ">
       <div>
         <h1 className=" px-4 py-2 text-600">Salary Management</h1>
       </div>

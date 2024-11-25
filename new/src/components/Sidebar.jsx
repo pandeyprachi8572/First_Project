@@ -14,20 +14,20 @@ const Sidebar = () => {
   const location = useLocation();
 
   return (
-    <div className="flex">
+    <div className="flex position: fixed">
       <div
         className={`w-20 md:w-64 bg-gray-900 transition-width duration-300 text-white h-screen ${
           isopen ? "w-64" : "w-20"
         }`}
       >
         <div className="flex justify-between items-center p-4">
-          <h2
-            className={`text-xl font-bold hidden md:block ${
+          <h3
+            className={`text-xl text-rose-500 font-bold hidden md:block ${
               isopen ? "block" : "hidden"
             }`}
           >
-            Dashboard
-          </h2>
+            Desk <p className="text-white"> Automation</p>
+          </h3>
           <button
             className="block md:hidden"
             onClick={() => setIsOpen(!isopen)}

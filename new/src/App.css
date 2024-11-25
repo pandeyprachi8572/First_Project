@@ -8,13 +8,17 @@ body {
   font-size: 16px;
   font-weight: 400;
   color: #666666;
-  overflow: hidden;
 }
 .action {
   display: flex;
   gap: 10px;
 }
-
+.main-content {
+  text-align: center;
+  padding-left: 14%;
+  padding-top: 5%;
+  align-items: center;
+}
 .wrapper {
   margin: 0 auto;
   width: 100%;
@@ -31,7 +35,7 @@ body {
   max-width: 600px;
   height: auto;
   display: flex;
-  background: #e7e6e6;
+  background: #f7f4f4;
 }
 .login .col-left,
 .login .col-right {
@@ -41,7 +45,7 @@ body {
 .login .col-left {
   width: 60%;
   clip-path: polygon(0 0, 0% 100%, 100% 0);
-  background: #2aa15f;
+  background: #200271;
 }
 .login .col-right {
   padding: 60px 30px;
@@ -97,7 +101,7 @@ body {
 }
 
 .login .login-text .btn:hover {
-  color: #2aa15f;
+  color: #200271;
   box-shadow: inset 150px 0 0 0 #ffffff;
 }
 
@@ -121,7 +125,7 @@ body {
   padding-top: 3px;
 }
 .login .login-form p a {
-  color: #2aa15f;
+  color: #200271;
   font-size: 14px;
   text-decoration: none;
 }
@@ -156,22 +160,24 @@ body {
   display: inline-block;
   width: 100%;
   margin-top: 5px;
-  color: #2aa15f;
+  color: #200271;
   font-size: 16px;
   letter-spacing: 1px;
   cursor: pointer;
   background: transparent;
   border: 1px solid #2aa15f;
   border-radius: 30px;
-  box-shadow: inset 0 0 0 0 #2aa15f;
+  box-shadow: inset 0 0 0 0 #200271;
   transition: 0.3s;
 }
 .login .login-form button:hover,
 .login .login-form input[type="submit"]:hover {
   color: #ffffff;
-  box-shadow: inset 250px 0 0 0 #2aa15f;
+  box-shadow: inset 250px 0 0 0 #200271;
 }
-
+.nav {
+  padding-left: 8%;
+}
 /*.wrapper {
   margin: 0 auto;
   width: 100%;
