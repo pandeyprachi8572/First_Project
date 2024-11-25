@@ -99,7 +99,7 @@ import HourlyRate from "./components/HourlyRate";
 function App() {
   const appRouter = createBrowserRouter([
     {
-      path: "/dashboard",
+      path: "/",
       element: (
         <ProtectedRoute>
           <Dashboard />
@@ -107,19 +107,19 @@ function App() {
       ),
       children: [
         {
-          path: "projects", 
+          path: "/",
           element: <ProjectTable />,
         },
         {
-          path: "employee",
+          path: "/employee",
           element: <Employee />,
         },
         {
-          path: "attendance",
+          path: "/attendance",
           element: <Attendance />,
         },
         {
-          path: "hourlyrate",
+          path: "/hourlyrate",
           element: <HourlyRate />,
         },
       ],
